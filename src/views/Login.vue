@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { ref } from 'vue';
+import { ref, onBeforeMount } from 'vue';
 import store from '../store'
 import router from '../router';
 
@@ -37,6 +37,9 @@ export default {
             alert('revise los datos')
         })
     }
+    onBeforeMount(()=>{
+        if(store.getters['session/loggedIn']) router.push('/')
+    })
     return { login, password , submit};
   },
 

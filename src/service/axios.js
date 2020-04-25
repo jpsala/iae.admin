@@ -3,9 +3,9 @@ import axios from 'axios';
 
 let store;
 const local = document.location.hostname === 'localhost';
-console.log('document.location.hostname', document.location.hostname);
+// console.log('document.location.hostname', document.location.hostname);
 const getAxios = () => {
-  console.log('una vez');
+  console.log('Axios, solo una vez!');
   axios.defaults.baseURL = local ? 'http://localhost:8888/api/iae' : 'https://root.iae.com.ar/iae/index.php?r=apiApp/';
   axios.interceptors.response.use((response) => {
     const endPoint = response.config.url.substring(response.config.url.lastIndexOf('/') + 1);
@@ -15,7 +15,8 @@ const getAxios = () => {
     }
     return response;
   }, (error) => {
-    Promise.reject(error);
+    console.log('Error en axios.interceptors.response: ', error.message || error)
+    return  Promise.reject(error);
   });
 
   axios.interceptors.request.use(

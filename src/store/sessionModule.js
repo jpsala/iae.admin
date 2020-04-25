@@ -14,9 +14,10 @@ const moduleGetters = {
 
 const moduleActions = {
   async tryToLogin({ dispatch, state }) {
+    if(!state.apiToken) return false;
     return dispatch('login', { token: state.apiToken })
       .catch((e) => {
-        console.log('tryToLogin catch', e);
+        console.log('tryToLogin catch: ', e.message);
         return false;
       }).then((r) => {
         return r;
@@ -39,11 +40,10 @@ const moduleActions = {
       });
   },
   logout({ commit, dispatch }) {
+    console.log('logout' )
     dispatch('setApiToken', undefined);
     dispatch('setLoginData', undefined);
-    commit('noticia/SET_NOTICIAS', [], { root: true });
-    commit('noticia/SET_NOTICIA_ACTIVA', undefined, { root: true });
-    router.push('/login');
+    // router.push('/login');
     // dispatch('setHijoActivo', undefined);
   },
   setApiToken({ commit }, value) {
