@@ -14,14 +14,12 @@ const moduleGetters = {
 
 const moduleActions = {
   async tryToLogin({ dispatch, state }) {
-    if(!state.apiToken) return false;
+    if (!state.apiToken || state.apiToken === 'undefined') return Promise.reject();
     return dispatch('login', { token: state.apiToken })
       .catch((e) => {
         console.log('tryToLogin catch: ', e.message);
         return false;
-      }).then((r) => {
-        return r;
-      });
+      }).then((r) => r);
   },
   async login(context, user) {
     if (context.getters.loggedIn) return true;
@@ -40,7 +38,7 @@ const moduleActions = {
       });
   },
   logout({ commit, dispatch }) {
-    console.log('logout' )
+    console.log('logout');
     dispatch('setApiToken', undefined);
     dispatch('setLoginData', undefined);
     // router.push('/login');
