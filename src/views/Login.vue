@@ -1,23 +1,23 @@
 <template>
-    <form @submit.stop.prevent="submit">
-      <div class="field">
-        <label class="label">Usuario</label>
+<div class="login flex__item--center card card--raised">
+  <form @submit.stop.prevent="submit" class="lead panel bg-color-lightest card__content">
       <div class="control">
-        <input v-model="login" class="input" type="text" placeholder="Usuario">
-      </div>
+        <label class="control__label">Usuario
+          <input  v-model="login" class="control__input" type="text" placeholder="Usuario">
+        </label>
     </div>
       <div class="field">
-        <label class="label">Password</label>
       <div class="control">
-        <input v-model="password" class="input" type="password" placeholder="Password">
+        <label class="control__label">Password
+          <input v-model="password" class="control__input" type="password" placeholder="Password">
+        </label>
       </div>
     </div>
-<div class="field is-grouped">
-  <div class="control">
-    <button  type="submit" class="button is-link">Ingresar</button>
+  <div class="grid grid--justify-end">
+    <button  type="submit" class="button button--filled button--primary">Ingresar</button>
   </div>
-</div>
   </form>
+</div>
 </template>
 
 <script>
@@ -51,8 +51,17 @@ export default {
 </script>
 
 <style lang="scss">
-    form{
-        max-width: 500px;
-        margin: 20px auto 0;
+    .login{
+      // background-color: lightblue;
+      margin: 30px auto;
+      padding: 25px 17px 0px 25px;
+      // max-width: 500px;
+      // margin: auto auto;
+      // background-color: #00D1B2;
+      border-radius: 5px;
+      & .field.is-grouped{
+        margin-top: 30px;
+        justify-content: flex-end;
+      }
     }
 </style>

@@ -1,34 +1,28 @@
 <template>
-  <div id="app">
-    <div class="container">
-      <Header />
-      <div class="app-container">
-        <Nav class="nav docs-sidebar off-canvas-sidebar"/>
-        <router-view class="router-view"/>
-      </div>
-    </div>
+  <div class="content flex">
+    <Nav />
+    <router-view class="router-view"/>
   </div>
 </template>
 <script>
 import Nav from './components/Nav.vue';
-import Header from './components/Header.vue';
 import { onLoggedInChanged, tryToLogin } from './service/helpers';
 
 export default {
-  components: { Nav, Header },
+  components: { Nav },
   setup() {
     onLoggedInChanged(async (c) => {
-      console.log('onLoggedInChanged', c);
       if (!c) await tryToLogin();
     });
   },
 };
 </script>
 <style lang="scss">
-.app-container{
-  display: flex;
+.router-view {
+  // padding: 20px 0;
 }
-.router-view{
+.content {
+  height: 100vh;
+}
 
-}
 </style>

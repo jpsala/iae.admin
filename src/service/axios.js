@@ -5,8 +5,8 @@ let store;
 const local = document.location.hostname === 'localhost';
 // console.log('document.location.hostname', document.location.hostname);
 const getAxios = () => {
-  console.log('Axios, solo una vez!');
-  axios.defaults.baseURL = local ? 'http://localhost:8888/api/iae' : 'https://root.iae.com.ar/iae/index.php?r=apiApp/';
+  // console.log('Axios, solo una vez!');
+  axios.defaults.baseURL = local ? 'http://localhost:8888/api/iae' : 'http://iae.dyndns.org:8888/api/iae';
   axios.interceptors.response.use((response) => {
     const endPoint = response.config.url.substring(response.config.url.lastIndexOf('/') + 1);
     console.log('endpoint %O %O response.data %O', endPoint, response, response.data);

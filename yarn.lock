@@ -1991,11 +1991,6 @@ builtin-status-codes@^3.0.0:
   resolved "https://registry.yarnpkg.com/builtin-status-codes/-/builtin-status-codes-3.0.0.tgz#85982878e21b98e1c66425e03d0174788f569ee8"
   integrity sha1-hZgoeOIbmOHGZCXgPQF0eI9Wnug=
 
-bulma@^0.8.2:
-  version "0.8.2"
-  resolved "https://registry.yarnpkg.com/bulma/-/bulma-0.8.2.tgz#5d928f16ed4a84549c2873f95c92c38c69c631a7"
-  integrity sha512-vMM/ijYSxX+Sm+nD7Lmc1UgWDy2JcL2nTKqwgEqXuOMU+IGALbXd5MLt/BcjBAPLIx36TtzhzBcSnOP974gcqA==
-
 bytes@3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/bytes/-/bytes-3.0.0.tgz#d32815404d689699f85a4ea4fa8755dd13a96048"
@@ -8271,6 +8266,11 @@ tar@^2.0.0:
     fstream "^1.0.12"
     inherits "2"
 
+tent-css@^1.4.3:
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/tent-css/-/tent-css-1.4.3.tgz#5b20e0f236a94c405ec8f1f421372ac37767182b"
+  integrity sha1-WyDg8japTEBeyPH0ITcqw3dnGCs=
+
 terser-webpack-plugin@^1.4.3:
   version "1.4.3"
   resolved "https://registry.yarnpkg.com/terser-webpack-plugin/-/terser-webpack-plugin-1.4.3.tgz#5ecaf2dbdc5fb99745fd06791f46fc9ddb1c9a7c"
@@ -8367,6 +8367,11 @@ timsort@^0.3.0:
   version "0.3.0"
   resolved "https://registry.yarnpkg.com/timsort/-/timsort-0.3.0.tgz#405411a8e7e6339fe64db9a234de11dc31e02bd4"
   integrity sha1-QFQRqOfmM5/mTbmiNN4R3DHgK9Q=
+
+tiny-throttle@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/tiny-throttle/-/tiny-throttle-1.0.1.tgz#0854719e77d59b66d87e95b7d48a0f890479da57"
+  integrity sha1-CFRxnnfVm2bYfpW31IoPiQR52lc=
 
 tmp@^0.0.33:
   version "0.0.33"

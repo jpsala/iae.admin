@@ -6,6 +6,8 @@ import { setStore } from './service/axios';
 // import '../node_modules/papercss/dist/paper.min.css';
 // import '../node_modules/mini.css/dist/mini-default.min.css';
 import './app.scss';
+import './assets/icomoon/style.css';
+// import './app.css';
 
 setStore(store);
 

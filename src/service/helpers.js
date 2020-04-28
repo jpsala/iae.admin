@@ -13,10 +13,8 @@ watch(
   { immediate: true },
 );
 const tryToLogin = () => {
-  console.log('tryToLogin');
   store.dispatch('session/tryToLogin')
     .then((resp) => {
-      console.log('resp', resp);
       if (!resp || resp.status !== 200) {
         router.push('/login');
       }
@@ -25,4 +23,41 @@ const tryToLogin = () => {
       router.push('/login');
     });
 };
-export { onLoggedInChanged, tryToLogin };
+const debounce = (fn, delay) => {
+  let timer = null;
+  return function () {
+    const context = this; const
+      // eslint-disable-next-line prefer-rest-params
+      args = arguments;
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      fn.apply(context, args);
+    }, delay);
+  };
+};
+const throttle = (fn, threshhold, scope) => {
+  threshhold || (threshhold = 250);
+  let last;
+  let deferTimer;
+  return function () {
+    const context = scope || this;
+
+    const now = +new Date();
+    // eslint-disable-next-line prefer-rest-params
+    const args = arguments;
+    if (last && now < last + threshhold) {
+      // hold on to it
+      clearTimeout(deferTimer);
+      deferTimer = setTimeout(() => {
+        last = now;
+        fn.apply(context, args);
+      }, threshhold);
+    } else {
+      last = now;
+      fn.apply(context, args);
+    }
+  };
+};
+export {
+  onLoggedInChanged, tryToLogin, debounce, throttle,
+};
