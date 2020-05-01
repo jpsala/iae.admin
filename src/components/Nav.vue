@@ -4,7 +4,7 @@
 </div>
 <div id="Nav" class="show" @click="navClick">
   <nav class="nav">
-  <span v-if="Screen.lt.lg" @click="togglePinned" class="pin" :class="{'icon-pin-outline':!pinned,'icon-pin':pinned}" />
+  <span v-if="Screen.lt.lg &&  Screen.gt.xs" @click="togglePinned" class="pin" :class="{'icon-pin-outline':!pinned,'icon-pin':pinned}" />
       <div class="margin-lg margin-y title-set">
       <span>
         <h5 class="title">
@@ -13,7 +13,7 @@
       </span>
       <ul class="list list--unstyled list--nulled">
         <li class="list__item">
-          <router-link to="usuariosDiferdo">Mediante App</router-link>
+          <router-link to="/usuariosDiferdo">Mediante App</router-link>
           <span class="list__item__det">Ellos mismos elijieron usando la App</span>
         </li>
         <li class="list__item">
@@ -31,15 +31,16 @@
     <div v-if="loggedIn" class="margin-xxs margin-y title-set">
       Conectado como {{$store.state.session.user.nombre}}
     </div>
-    <button v-if="loggedIn" @click="logout()" class="button--clear button--outlined button button--primary button--sm margin-xxs margin-y title-set">
+    <button v-if="loggedIn" @click="logout()" class="button--clear  button  margin-xxs margin-y title-set">
       Desconectar
     </button>
-    <router-link to="/login" v-if="!loggedIn" class="button button--primary margin-xxs margin-y title-set">
+    <router-link to="/login" v-if="!loggedIn" class="button  button--clear margin-xxs margin-y title-set">
      Ingresar
     </router-link>
   </nav>
 </div>
 <div v-if="overlay" id="overlay" @click="closeOverlay"></div>
+<!-- <div class="log">{{Screen.width +' '+ Screen.name}}</div> -->
 </template>
 <script>
 /* eslint-disable max-len */

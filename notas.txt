@@ -1,0 +1,20 @@
+    const keydown = (e) => {
+      const { key } = e;
+      if (key === 'Escape') escape();
+      if (state.filteredOptions.length === 0) return;
+      let active;
+      if (key === 'ArrowDown') {
+        active = state.activeOptionIndex !== undefined ? state.activeOptionIndex + 1 : 0;
+      } else if (key === 'ArrowUp') {
+        active = state.activeOptionIndex !== undefined ? state.activeOptionIndex - 1 : 0;
+      } else if (key === 'Enter') {
+        click(state.filteredOptions[state.activeOptionIndex]);
+      }
+      if (active > state.filteredOptions.length - 1) active = 0;
+      if (active < 0) active = state.filteredOptions.length - 1;
+      state.activeOptionIndex = active;
+      setTimeout(() => {
+        const element = document.querySelector('.is-active');
+        if (element) element.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }, 50);
+    };

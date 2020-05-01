@@ -1,0 +1,67 @@
+// ==========================================================================
+// Space
+// ==========================================================================
+
+.q {
+    &-p {
+
+        // Create padding classes
+        // For each space key found in the $spaces map from the settings.
+        @each $space, $padding in $spaces {
+            &a-#{$space} {
+                padding: $padding;
+            }
+            &x-#{$space} {
+                padding-left: $padding;
+                padding-right: $padding;
+            }
+            &y-#{$space} {
+                padding-top: $padding;
+                padding-bottom: $padding;
+            }
+            &t-#{$space} {
+                padding-bottom: $padding;
+            }
+            &r-#{$space} {
+                padding-right: $padding;
+            }
+            &b-#{$space} {
+                padding-bottom: $padding;
+            }
+            &l-#{$space} {
+                    padding-left: $padding;
+            }
+        }
+    }
+    &-m {
+
+        // Create margin classes
+        // For each space key found in the $spaces map from the settings.
+        @each $space, $margin in $spaces {
+            &a-#{$space} {
+                margin: $margin;
+            }
+            &x-#{$space} {
+                margin-left: $margin;
+                margin-right: $margin;
+            }
+            &y-#{$space} {
+                margin-top: $margin;
+                margin-bottom: $margin;
+            }
+            &t-#{$space} {
+                margin-bottom: $margin;
+            }
+            &r-#{$space} {
+                margin-right: $margin;
+            }
+            &b-#{$space} {
+                margin-bottom: $margin;
+            }
+            &l-#{$space} {
+                    margin-left: $margin;
+            }
+        }
+    }
+
+}

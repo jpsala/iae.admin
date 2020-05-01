@@ -58,6 +58,7 @@ const throttle = (fn, threshhold, scope) => {
     }
   };
 };
+const uniqueID = () => Date.now();
 export {
-  onLoggedInChanged, tryToLogin, debounce, throttle,
+  onLoggedInChanged, tryToLogin, debounce, throttle, uniqueID,
 };

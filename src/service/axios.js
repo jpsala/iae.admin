@@ -15,8 +15,9 @@ const getAxios = () => {
     }
     return response;
   }, (error) => {
-    console.log('Error en axios.interceptors.response: ', error.message || error)
-    return  Promise.reject(error);
+    console.log('Error en axios.interceptors.response: ', error.message || error);
+    // throw error;
+    return Promise.reject(error);
   });
 
   axios.interceptors.request.use(
@@ -32,5 +33,5 @@ const getAxios = () => {
   return axios;
 };
 const _axios = getAxios();
-export const setStore = (_store) => { store = _store; };
+export const setStoreInAxios = (_store) => { store = _store; };
 export default _axios;
