@@ -1,36 +1,34 @@
 <template>
   <div class="margin-md flex flex__item">
-    <Autocomplete :option="parseOption" autofocus @select="usuario = $event" :options="users"
-        clave="nombre" :placeholder="(option) => option.apellido + ', ' + option.nombre"/>
-    <div style="background-color:lightblue">
-      <div class="">hola</div>
-    </div>
+    <autocomplete autofocus  :options="users"
+        @onchange="onchange" :value="usuario"
+        :show-on-success="(option)=>option.apellido + ', ' + option.nombre">
+        <template v-slot:option="{option}">{{formatOption(option)}}</template>
+    </autocomplete>
+    <pre v-if="usuarioSeleccionado">{{usuarioSeleccionado}}</pre>
   </div>
 </template>
 <script>
 /* eslint-disable no-shadow */
 import { ref } from 'vue';
-import Autocomplete from '../components/Autocomplete.vue';
-import { getParientes } from '../service/socio';
+import autocomplete from '../components/Autocomplete.vue';
+import { getParientes, getPariente } from '../service/socio';
 
 export default {
-  components: { Autocomplete },
+  components: { autocomplete },
   setup() {
-    const usuario = ref('Usuario');
-    const parseOption = (_option) => {
-      let option = `${_option.nombre}, ${_option.apellido}`;
-      option = `${option}${_option.usando_app === '1' ? ' (App)' : ''}`;
-      option = `${option}${_option.email ? `,  ${_option.email}` : ''}`;
-      option = `${option}${_option.diferido ? ' diferido' : ''}`;
-      option = `${option}${_option.usando_app ? ' usando app' : ''}`;
-      return option;
-    };
+    const usuario = ref({ id: 1, nombre: 'juan', apellido: 'sala' });
+    const usuarioSeleccionado = ref();
+    const formatOption = (_option) => `${_option.nombre}, ${_option.apellido} ${_option.email ? `,  ${_option.email}` : ''}`;
     const users = async (term) => (await getParientes(term)).data;
-    return { usuario, users, parseOption };
+    const onchange = async (_usuario) => {
+      const user = (await getPariente(_usuario.id)).data;
+      console.log('usr', user);
+      usuarioSeleccionado.value = user;
+    };
+    return {
+      usuario, users, formatOption, onchange,usuarioSeleccionado,
+    };
   },
 };
 </script>
-
-<style>
-
-</style>

@@ -13,6 +13,11 @@ const routes = [
     component: () => import(/* webpackChunkName: "test" */ '../views/Test.vue'),
   },
   {
+    path: '/autocomplete',
+    name: 'autocomplete',
+    component: () => import(/* webpackChunkName: "autocomplete" */ '../views/Autocomplete.vue'),
+  },
+  {
     path: '/usuariosDiferdo',
     name: 'usuariosDiferdo',
     component: () => import(/* webpackChunkName: "test" */ '../views/UsuariosDiferdo.vue'),

@@ -5,6 +5,10 @@ import { throttle } from './helpers';
 
 const Screen = ref({ lt: {}, gt: {} });
 const setScreenValues = (data) => {
+  if (!data) {
+    console.log('data', data);
+    return;
+  }
   Screen.value.X = data.ScreenX;
   Screen.value.Y = data.ScreenY;
   Screen.value.width = data.innerWidth;

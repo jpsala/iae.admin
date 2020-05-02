@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 import { watch } from 'vue';
 import store from '../store';
 import router from '../router';
@@ -19,31 +20,75 @@ const tryToLogin = () => {
         router.push('/login');
       }
     })
-    .catch((e) => {
+    .catch(() => {
       router.push('/login');
     });
 };
-const debounce = (fn, delay) => {
-  let timer = null;
-  return function () {
-    const context = this; const
-      // eslint-disable-next-line prefer-rest-params
-      args = arguments;
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      fn.apply(context, args);
-    }, delay);
+
+const debounce = (func, wait, immediate) => {
+  let timeout; let args; let context; let timestamp; let
+    result;
+  if (wait == null) wait = 100;
+
+  const later = () => {
+    const last = Date.now() - timestamp;
+
+    if (last < wait && last >= 0) {
+      timeout = setTimeout(later, wait - last);
+    } else {
+      timeout = null;
+      if (!immediate) {
+        result = func.apply(context, args);
+        // eslint-disable-next-line no-multi-assign
+        context = args = null;
+      }
+    }
   };
+
+  function debounced() {
+    context = this;
+    args = arguments;
+    timestamp = Date.now();
+    const callNow = immediate && !timeout;
+    if (!timeout) timeout = setTimeout(later, wait);
+    if (callNow) {
+      result = func.apply(context, args);
+      context = args = null;
+    }
+
+    return result;
+  }
+
+  debounced.clear = () => {
+    if (timeout) {
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+
+  debounced.flush = () => {
+    if (timeout) {
+      result = func.apply(context, args);
+      context = args = null;
+
+      clearTimeout(timeout);
+      timeout = null;
+    }
+  };
+
+  return debounced;
 };
+
 const throttle = (fn, threshhold, scope) => {
-  threshhold || (threshhold = 250);
+  if (!threshhold) (threshhold = 250);
   let last;
   let deferTimer;
-  return function () {
+  return () => {
     const context = scope || this;
 
     const now = +new Date();
     // eslint-disable-next-line prefer-rest-params
+    // eslint-disable-next-line no-undef
     const args = arguments;
     if (last && now < last + threshhold) {
       // hold on to it

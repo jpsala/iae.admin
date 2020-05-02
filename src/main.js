@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import { setStoreInAxios } from './service/axios';
-import './scss/app.scss';
+import './app.css';
 import './assets/icomoon/style.css';
 
 setStoreInAxios(store);

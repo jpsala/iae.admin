@@ -16,3 +16,7 @@ export const getParientes = (term) => {
   console.log('term', term);
   return axios.get(`/socio/parientesByTerm?term=${term}`);
 };
+
+export const getPariente = (id) => {
+  return axios.get(`/socio/parienteByID?id=${id}`);
+};

@@ -19,6 +19,7 @@ export default {
 };
 </script>
 <style lang="scss">
+// @import './scss/app';
 .router-view {
   // padding: 20px 0;
 }
