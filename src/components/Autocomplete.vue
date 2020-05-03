@@ -65,8 +65,6 @@ export default {
       // state.placeholder = option[props.optionLabel];
       clearState();
     };
-    console.log('pros', props.value.nombre, props.value[props.optionLabel]);
-    // if (props.value) state.placeholder = props.value[props.optionLabel];
     const movement = useMovement();
     movement.onKeyEscape(() => clearState());
     movement.onKeyEnter((index) => selectOption(state.filteredItems[index]));
@@ -86,8 +84,7 @@ export default {
     watch(() => state.filterInput, debounce((filterInput) => filterChanged(filterInput), 500));
     watch(() => state.filteredItems.length, (length) => movement.setCantItems(length));
     watch(movement.index, scrollIntoView);
-    watch(() => props.value, (v) => { state.placeholder = v[props.optionLabel]; },
-      { immediate: true });
+    watch(() => props.value, (v) => { state.placeholder = v[props.optionLabel]; }, { immediate: true });
     onBeforeMount(async () => { state.items = props.options; });
     // onMounted(() => { state.filterInput = 'sala'; });
     onMounted(() => document.addEventListener('click', documentClick));
