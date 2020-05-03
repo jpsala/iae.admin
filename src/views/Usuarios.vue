@@ -27,7 +27,7 @@ export default {
       usuarioSeleccionado.value = user;
     };
     return {
-      usuario, users, formatOption, onchange,usuarioSeleccionado,
+      usuario, users, formatOption, onchange, usuarioSeleccionado,
     };
   },
 };

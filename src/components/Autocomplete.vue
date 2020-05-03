@@ -1,75 +1,188 @@
 <template>
-<div id="autocomplete-wraper" class="q-pa-md">
-      <div class="title--md" >autocomplete component</div>
-      <div class="flex  flex--center" style="justify-content: space-between">
-        <pre class="">attrs:{{$attrs}}</pre>
-        <pre class="">props:{{$props}}</pre>
-    </div>
-      <div  class="autocomplete q-pa-md">
-          <button class="button button--outlined button--primary" @click="updateValue">Emit, usuario = 2</button>
+  <div class="q-pa-md" id="autocomplete-wraper">
+    <div class="title-i-md">autocomplete component</div>
+    <div class="autocomplete" :id="thisCompID">
+      <div class="control">
+        <div>hola</div>
+        <input :placeholder="placeholder" class="control__input" type="text" v-bind="$attrs"
+          v-model="filterInput" @keydown="keydownHandler" />
+      </div>
+      <div class="options-wraper" v-show="filteredItems.length">
+        <div class="options">
+          <div :class="{'is-active': index === activeIndex}" :key="index" @click="onClick(item)"
+            class="option" v-for="(item, index) of filteredItems">
+            <slot name="option" v-bind:option="item">
+              {{item.apellido}},
+              {{item.nombre}}
+            </slot>
+          </div>
+        </div>
       </div>
     </div>
+    <div class="flex flex--center" div style="justify-content: space-between">
+      <pre>attrs:{{$attrs}}</pre>
+      <pre>props:{{$props}}</pre>
+      <pre>items:{{items.length}}</pre>
+      <pre>filteredItems:{{filteredItems.length}}</pre>
+      <pre>{{activeIndex}}</pre>
+    </div>
+  </div>
 </template>
 <script>
-import { toRefs, reactive } from 'vue';
+/* eslint-disable object-curly-newline */
+import { toRefs, reactive, onBeforeMount, onMounted, onUnmounted, watch } from 'vue';
+import { debounce, uniqueID } from '../service/helpers';
+import useMovement from '../service/useMovement';
 
 export default {
-  props: ['value'],
-  model: {
-    prop: 'value',
-    event: 'update',
+  props: {
+    value: { default: undefined },
+    options: { default: [], as: 'parentOptions' },
+    minChars: { default: 3, type: Number },
+    optionLabel: { default: 'nombre' },
+    optionId: { default: 'id' },
   },
-  setup(props, { attrs, emit }) {
-    console.log('props', props);
-    console.log('attrs', attrs);
+  setup(props, { emit }) {
     const state = reactive({
+      items: [],
+      filteredItems: [],
+      filterInput: '',
+      placeholder: '',
+      activeIndex: undefined,
+      thisCompID: uniqueID(),
 
     });
-    const updateValue = () => {
-      console.log('emit');
-      emit('update', { id: 2, nombre: new Date().getSeconds() });
-      // emit('update', 'hola');
+    const filterChanged = async (filterInput) => {
+      if (filterInput.length < props.minChars) {
+        state.filteredItems = [];
+        return;
+      }
+      if (typeof state.items === 'function') {
+        state.filteredItems = await state.items(filterInput);
+      } else {
+        state.filteredItems = state.items.filterInput(
+          (option) => option[props.searchKey]
+            .toLowerCase()
+            .indexOf(filterInput.toLowerCase()) > -1,
+        );
+      }
     };
-    return { updateValue, ...toRefs(state) };
+    const clearState = () => {
+      state.filterInput = '';
+      state.filteredItems = [];
+    };
+    const selectOption = (option) => {
+      emit('update', option);
+      // state.placeholder = option[props.optionLabel];
+      clearState();
+    };
+    console.log('pros', props.value.nombre, props.value[props.optionLabel]);
+    // if (props.value) state.placeholder = props.value[props.optionLabel];
+    const movement = useMovement();
+    movement.onKeyEscape(() => clearState());
+    movement.onKeyEnter(() => selectOption(state.filteredItems[movement.index.value]));
+    const onClick = selectOption;
+    const documentClick = (e) => {
+      const { target } = e;
+      const clickInsideThisComp = document.getElementById(state.thisCompID).querySelector('input').contains(target);
+      if (clickInsideThisComp) return;
+      clearState();
+    };
+    const scrollIntoView = () => {
+      setTimeout(() => {
+        const element = document.getElementById(state.thisCompID).querySelector('.is-active');
+        if (element) element.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      }, 50);
+    };
+    watch(() => state.filterInput, debounce((filterInput) => filterChanged(filterInput), 500));
+    watch(() => state.filteredItems.length, (length) => movement.setCantItems(length));
+    watch(movement.index, scrollIntoView);
+    watch(() => props.value, (v) => { state.placeholder = v[props.optionLabel]; },
+      { immediate: true });
+    onBeforeMount(async () => { state.items = props.options; });
+    // onMounted(() => { state.filterInput = 'sala'; });
+    onMounted(() => document.addEventListener('click', documentClick));
+    onUnmounted(() => document.removeEventListener('click', documentClick));
+
+    return { onClick,
+      ...toRefs(state),
+      activeIndex: movement.index,
+      keydownHandler: movement.keydownHandler };
   },
 };
 </script>
 
 <style lang="scss">
-#autocomplete-wraper{
-  background-color: lightpink;
+#autocomplete-wraper {
+    background-color: lightpink;
 }
-.autocomplete{
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  input{
-    width: 250px;
-  }
-  .options-wraper {
-      background-color: white;
-      box-shadow: 3px 2px 3px 0px #b5b5c7bf;
-      border: 1px solid #0000002e;
-      // left: 0;
-      // top: 50px;
-      // padding: 10px 0 10px 10px;
-      // max-height: 233px;
-      position:   absolute;
-    .options {
-        overflow-y: auto;
-        overflow-x: hidden;
-        max-height: 250px;
-        padding: 10px;
+.autocomplete {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    input {
+        width: 250px;
     }
-    .options .option {
-      padding: 5px;
-      display: block;
-      border-radius: 2px;
-      cursor: pointer;
+    .options-wraper {
+        background-color: white;
+        box-shadow: 3px 2px 3px 0px #b5b5c7bf;
+        border: 1px solid #0000002e;
+        // left: 0;
+        // top: 50px;
+        // padding: 10px 0 10px 10px;
+        // max-height: 233px;
+        position: absolute;
+        .options {
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: 250px;
+            padding: 10px;
+            width: 300px;
+        }
+        .options .option {
+            padding: 5px;
+            display: block;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .options .option:hover,
+        .options .is-active {
+            background-color: #dedede;
+        }
     }
-    .options .option:hover, .options .is-active {
-        background-color: #dedede;
+}
+.autocomplete {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    input {
+        width: 250px;
     }
-  }
+    .options-wraper {
+        background-color: white;
+        box-shadow: 3px 2px 3px 0px #b5b5c7bf;
+        border: 1px solid #0000002e;
+        // left: 0;
+        // top: 50px;
+        // padding: 10px 0 10px 10px;
+        // max-height: 233px;
+        position: absolute;
+        .options {
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: 250px;
+            padding: 10px;
+        }
+        .options .option {
+            padding: 5px;
+            display: block;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .options .option:hover,
+        .options .is-active {
+            background-color: #dedede;
+        }
+    }
 }
 </style>

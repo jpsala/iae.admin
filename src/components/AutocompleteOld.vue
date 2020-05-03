@@ -1,20 +1,20 @@
 <template>
-<div  class="autocomplete" :id="thisCompID">
+  <div class="autocomplete" :id="thisCompID">
     <div class="control">
-        <input v-bind="$attrs" v-model="userInput" :placeholder="placeholder"
-                     class="control__input" type="text" @keydown="keydownHandler">
+      <input v-bind="$attrs" v-model="userInput" :placeholder="placeholder"
+        class="control__input" type="text" @keydown="keydownHandler">
     </div>
     <div class="options-wraper" v-show="filteredOptions.length">
       <div class="options">
-        <div v-for="(option, index) of filteredOptions" :key="index"
-                class="option" @click="onClick(option)" :class="{'is-active': index === activeOptionIndex}">
-            <slot name="option" v-bind:option="option">
-              {{showOnSuccess(option)}}
-            </slot>
+        <div v-for="(option, index) of filteredOptions" :key="index" class="option"
+          @click="onClick(option)" :class="{'is-active': index === activeOptionIndex}">
+          <slot name="option" v-bind:option="option">
+            {{showOnSuccess(option)}}
+          </slot>
         </div>
       </div>
     </div>
-</div>
+  </div>
 </template>
 <script>
 /* eslint-disable object-curly-newline */
@@ -116,37 +116,38 @@ export default {
 </script>
 
 <style lang="scss">
-.autocomplete{
-  display: inline-block;
-  position: relative;
-  width: 100%;
-  input{
-    width: 250px;
-  }
-  .options-wraper {
-      background-color: white;
-      box-shadow: 3px 2px 3px 0px #b5b5c7bf;
-      border: 1px solid #0000002e;
-      // left: 0;
-      // top: 50px;
-      // padding: 10px 0 10px 10px;
-      // max-height: 233px;
-      position:   absolute;
-    .options {
-        overflow-y: auto;
-        overflow-x: hidden;
-        max-height: 250px;
-        padding: 10px;
+.autocomplete {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+    input {
+        width: 250px;
     }
-    .options .option {
-      padding: 5px;
-      display: block;
-      border-radius: 2px;
-      cursor: pointer;
+    .options-wraper {
+        background-color: white;
+        box-shadow: 3px 2px 3px 0px #b5b5c7bf;
+        border: 1px solid #0000002e;
+        // left: 0;
+        // top: 50px;
+        // padding: 10px 0 10px 10px;
+        // max-height: 233px;
+        position: absolute;
+        .options {
+            overflow-y: auto;
+            overflow-x: hidden;
+            max-height: 250px;
+            padding: 10px;
+        }
+        .options .option {
+            padding: 5px;
+            display: block;
+            border-radius: 2px;
+            cursor: pointer;
+        }
+        .options .option:hover,
+        .options .is-active {
+            background-color: #dedede;
+        }
     }
-    .options .option:hover, .options .is-active {
-        background-color: #dedede;
-    }
-  }
 }
 </style>

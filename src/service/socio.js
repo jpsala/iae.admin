@@ -12,11 +12,14 @@ export const diferidos = async () => {
   return resp;
 };
 
-export const getParientes = (term) => {
+export const getParientes = async (term) => {
   console.log('term', term);
-  return axios.get(`/socio/parientesByTerm?term=${term}`);
+  const resp = await axios.get(`/socio/parientesByTerm?term=${term}`);
+  return resp.data.map((u) => {
+    // eslint-disable-next-line no-param-reassign
+    u.nombreCompleto = `${u.apellido}, ${u.nombre}`;
+    return u;
+  });
 };
 
-export const getPariente = (id) => {
-  return axios.get(`/socio/parienteByID?id=${id}`);
-};
+export const getPariente = (id) => axios.get(`/socio/parienteByID?id=${id}`);
