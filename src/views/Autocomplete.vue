@@ -1,10 +1,8 @@
 <template>
-  <div class='margin-md flex flex__item bg-color-light'>
+  <div class='q-pa-lg flex flex__item bg-color-light'>
     <autocomplete autofocus="true" :value="usuario" @update="(e) => {usuario = e}"
       :options="users" option-value="id" option-label="nombreCompleto"></autocomplete>
     <hr />
-    <button @click='usuario = {id:1, nombreCompleto: new Date().getSeconds()}' class='button'>
-      usuario = 1</button>
     <div class='flex flex--center' style='justify-content: space-between'>
       <pre>Usuario:{{ usuario }}</pre>
     </div>

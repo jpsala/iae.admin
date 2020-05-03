@@ -1,9 +1,6 @@
 <template>
-  <div class="q-pa-md" id="autocomplete-wraper">
-    <div class="title-i-md">autocomplete component</div>
     <div class="autocomplete" :id="thisCompID">
       <div class="control">
-        <div>hola</div>
         <input :placeholder="placeholder" class="control__input" type="text" v-bind="$attrs"
           v-model="filterInput" @keydown="keydownHandler" />
       </div>
@@ -18,14 +15,6 @@
           </div>
         </div>
       </div>
-    </div>
-    <div class="flex flex--center" div style="justify-content: space-between">
-      <pre>attrs:{{$attrs}}</pre>
-      <pre>props:{{$props}}</pre>
-      <pre>items:{{items.length}}</pre>
-      <pre>filteredItems:{{filteredItems.length}}</pre>
-      <pre>{{activeIndex}}</pre>
-    </div>
   </div>
 </template>
 <script>
@@ -80,7 +69,7 @@ export default {
     // if (props.value) state.placeholder = props.value[props.optionLabel];
     const movement = useMovement();
     movement.onKeyEscape(() => clearState());
-    movement.onKeyEnter(() => selectOption(state.filteredItems[movement.index.value]));
+    movement.onKeyEnter((index) => selectOption(state.filteredItems[index]));
     const onClick = selectOption;
     const documentClick = (e) => {
       const { target } = e;
