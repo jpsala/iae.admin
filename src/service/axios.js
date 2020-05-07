@@ -8,7 +8,7 @@ const getAxios = () => {
     const { apiToken, setApiToken } = useSession();
     // console.log('Axios, solo una vez!');
     axios.defaults.baseURL = local ? 'http://localhost:8888'
-        : 'http://iae.dyndns.org:8888/api/iae';
+        : 'http://iae.dyndns.org:8888';
     axios.interceptors.response.use((response) => {
         const endPoint = response.config.url.substring(response.config.url.lastIndexOf('/') + 1);
         console.log('endpoint %O %O response.data %O', endPoint, response, response.data);

@@ -2,7 +2,7 @@ import { reactive, computed } from 'vue';
 import axios from 'axios';
 import router from '../router';
 
-const jwtSecret = 'strapi1';
+const jwtSecret = 'iae.v2';
 const state = reactive({
     loading: false,
     apiToken: window.localStorage.getItem(jwtSecret),
