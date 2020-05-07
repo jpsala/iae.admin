@@ -1,5 +1,4 @@
 /* eslint-disable import/prefer-default-export */
-// import store from '../store';
 import axios from './axios';
 
 // export const usuariosDiferido = (term) => {
@@ -8,18 +7,23 @@ import axios from './axios';
 // };
 
 export const diferidos = async () => {
-  const resp = await axios.get('/socio/diferido');
-  return resp;
+    const resp = await axios.get('/socio/diferido');
+    return resp;
 };
 
 export const getParientes = async (term) => {
-  console.log('term', term);
-  const resp = await axios.get(`/socio/parientesByTerm?term=${term}`);
-  return resp.data.map((u) => {
+    console.log('term', term);
+    const resp = await axios.get(`/api/iae/socio/parientesByTerm?term=${term}`);
+    return resp.data.map((u) => {
     // eslint-disable-next-line no-param-reassign
-    u.nombreCompleto = `${u.apellido}, ${u.nombre}`;
-    return u;
-  });
+        u.nombreCompleto = `${u.apellido}, ${u.nombre}`;
+        return u;
+    });
 };
 
-export const getPariente = (id) => axios.get(`/socio/parienteByID?id=${id}`);
+export const getPariente = async (id) => {
+    const resp = await axios.get(`/api/iae/socio/parienteByID?id=${id}`);
+    console.log('resp', resp.data);
+    if (resp.data) resp.data.nombreCompleto = `${resp.data.nombre}, ${resp.data.apellido}`;
+    return resp.data;
+};

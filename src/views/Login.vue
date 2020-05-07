@@ -21,31 +21,34 @@
 </template>
 
 <script>
-import { ref, onBeforeMount } from 'vue';
-import store from '../store';
+import { reactive, onBeforeMount, toRefs } from 'vue';
 import router from '../router';
+import useSession from '../service/useSession';
 
 export default {
-  setup() {
-    const login = ref('');
-    const password = ref('');
-    const submit = () => {
-      store.dispatch('session/login', {
-        login: login.value,
-        password: password.value,
-        saveCredentials: false,
-      }).then(() => {
-        router.push('/');
-      }).catch((e) => {
-        console.log('error', e);
-        alert('revise los datos');
-      });
-    };
-    onBeforeMount(() => {
-      if (store.getters['session/loggedIn']) router.push('/');
-    });
-    return { login, password, submit };
-  },
+    setup() {
+        const state = reactive({
+            login: 'jpsala',
+            password: 'lani0363',
+        });
+        const { login: useLogin, loggedIn } = useSession();
+        console.log('l', loggedIn);
+        const submit = () => {
+            useLogin({
+                login: state.login,
+                password: state.password,
+            }).then(() => {
+                router.push('/');
+            }).catch((e) => {
+                console.log('error', e);
+                alert('revise los datos');
+            });
+        };
+        onBeforeMount(() => {
+            if (loggedIn.value) router.push('/');
+        });
+        return { ...toRefs(state), submit };
+    },
 
 };
 </script>

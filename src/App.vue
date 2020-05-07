@@ -6,16 +6,25 @@
 </template>
 
 <script>
+import { onBeforeMount } from 'vue';
 import Nav from './components/Nav.vue';
-import { onLoggedInChanged, tryToLogin } from './service/helpers';
+import useSession from './service/useSession';
+import router from './router';
 
 export default {
-  components: { Nav },
-  setup() {
-    onLoggedInChanged(async (c) => {
-      if (!c) await tryToLogin();
-    });
-  },
+    components: { Nav },
+    setup() {
+        const { tryToLogin, user } = useSession();
+        onBeforeMount(async () => {
+            try {
+                const loggedIn = await tryToLogin();
+                if (!loggedIn) router.push('/login');
+            } catch (error) {
+                console.log('ERROR trying to login ', error);
+            }
+        });
+        return { user };
+    },
 };
 </script>
 <style lang="scss">

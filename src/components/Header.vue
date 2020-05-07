@@ -28,15 +28,13 @@
 </template>
 
 <script>
-import { computed } from 'vue';
-import store from '../store';
+import useSession from '../service/useSession';
 
 export default {
-  setup() {
-    const logout = () => store.dispatch('session/logout');
-    const loggedIn = computed(() => store.getters['session/loggedIn']);
-    return { logout, loggedIn };
-  },
+    setup() {
+        const { loggedIn, logout } = useSession()
+        return { logout, loggedIn };
+    },
 };
 </script>
 <style lang="scss">

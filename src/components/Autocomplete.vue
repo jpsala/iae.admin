@@ -8,9 +8,8 @@
         <div class="options">
           <div :class="{'is-active': index === activeIndex}" :key="index" @click="onClick(item)"
             class="option" v-for="(item, index) of filteredItems">
-            <slot name="option" v-bind:option="item">
-              {{item.apellido}},
-              {{item.nombre}}
+            <slot v-if="item" name="option" v-bind:option="item">
+              {{item.apellido}}, {{item.nombre}}
             </slot>
           </div>
         </div>
@@ -84,7 +83,7 @@ export default {
     watch(() => state.filterInput, debounce((filterInput) => filterChanged(filterInput), 500));
     watch(() => state.filteredItems.length, (length) => movement.setCantItems(length));
     watch(movement.index, scrollIntoView);
-    watch(() => props.value, (v) => { state.placeholder = v[props.optionLabel]; }, { immediate: true });
+    watch(() => props.value, (v) => { state.placeholder = v ? v[props.optionLabel] : ''; }, { immediate: true });
     onBeforeMount(async () => { state.items = props.options; });
     // onMounted(() => { state.filterInput = 'sala'; });
     onMounted(() => document.addEventListener('click', documentClick));
@@ -99,9 +98,6 @@ export default {
 </script>
 
 <style lang="scss">
-#autocomplete-wraper {
-    background-color: lightpink;
-}
 .autocomplete {
     display: inline-block;
     position: relative;
