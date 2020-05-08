@@ -104,7 +104,6 @@
         <!-- <div v-for="(u, index) in usuarios" :key="index">{{u.id}}</div> -->
       </div>
     </div>
-    od:{{modificado}}
   </div>
 </template>
 <script>
@@ -133,7 +132,7 @@ export default {
             setUsuarioLocal(undefined);
         };
         onDataLoaded(() => {
-            filter.value = 'sala';
+            // filter.value = 'sala';
             // setFilter('sala');
         });
         onFilterApplied(() => {

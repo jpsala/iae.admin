@@ -9,7 +9,11 @@
       <div class="margin-lg margin-y title-set">
         <ul class="list list--unstyled list--nulled">
           <li class="list__item">
-            <router-link to="users">Usuarios</router-link>
+            <router-link to="usuarios-list">Usuarios</router-link>
+            <span class="list__item__det">Administrar los Usuarios/Empleados</span>
+          </li>
+          <li class="list__item">
+            <router-link to="parientes-list">Parientes</router-link>
             <span class="list__item__det">Administrar los Usuarios/Empleados</span>
           </li>
           <li class="list__item" v-if="loggedIn">

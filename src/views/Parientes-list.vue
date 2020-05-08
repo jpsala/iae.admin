@@ -66,7 +66,7 @@
         <input id="filtro" class="control__input" autofocus type="text" v-model="filter" />
       </div>
       <!-- Form -->
-      <div v-if="parientesFiltered.length > 0  && !parienteLocal">
+      <div v-if="parientes.length > 0  && !parienteLocal">
         <table class="table table--stripped">
           <thead class="table__head">
             <tr class="table__row table__row--heading">
@@ -79,7 +79,7 @@
             </tr>
           </thead>
           <tbody class="table__body">
-            <tr @click="setParienteLocal(u)" class="table__row" v-for="(u, index) in parientesFiltered"
+            <tr @click="setParienteLocal(u)" class="table__row" v-for="(u, index) in parientes"
               :key="index">
               <td class="table__cell">{{u.nombre}}</td>
               <td class="table__cell">{{u.apellido}}</td>
@@ -91,21 +91,21 @@
         </table>
         <!-- <div v-for="(u, index) in parientes" :key="index">{{u.id}}</div> -->
       </div>
+      <div v-if="loading">Cargando...</div>
     </div>
-    od:{{modificado}}
   </div>
 </template>
 <script>
 import { ref, watch, computed } from 'vue';
 import usePariente from '../service/usePariente';
-
+import { debounce } from '../service/helpers';
 
 export default {
     setup() {
         const filter = ref('');
         const parienteLocal = ref();
         const {
-            loading, pariente, parientesFiltered, setFilter, setPariente, onFilterApplied,
+            loading, pariente, parientes, setFilter, setPariente, onFilterApplied,
             onDataLoaded, grabaPariente,
         } = usePariente();
         const setParienteLocal = (u) => {
@@ -122,16 +122,16 @@ export default {
             setParienteLocal(undefined);
         };
         onDataLoaded(() => {
-            filter.value = 'sala';
+            // filter.value = 'sala';
             // setFilter('sala');
         });
         onFilterApplied(() => {
-            setPariente(parientesFiltered.value[0]);
+            setPariente(parientes.value[0]);
         });
         const modificado = computed(() => false);
-        watch(filter, () => setFilter(filter.value), { immediate: true });
+        watch(filter, debounce((f) => { setFilter(f); }, 500), { immediate: false });
         return {
-            loading, pariente, parientesFiltered, filter, setPariente, graba, cancela, setParienteLocal, parienteLocal, modificado,
+            loading, pariente, parientes, filter, setPariente, graba, cancela, setParienteLocal, parienteLocal, modificado,
         };
     },
 };

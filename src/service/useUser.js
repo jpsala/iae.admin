@@ -42,7 +42,9 @@ export default () => {
         onFilterAppliedFN();
     };
     const grabaUsuario = async (value) => {
+        state.loading = true;
         await axios.post('/api/iae/user', value);
+        state.loading = false;
         const idx = state.usuarios.findIndex((_u) => _u.id === value.id);
         // state.usuario = value;
         if (idx >= 0) state.usuarios[idx] = value;
@@ -50,7 +52,9 @@ export default () => {
     };
     const fetch = async () => {
         if (state.usuarios.length) return;
+        state.loading = true;
         const response = await axios({ url: '/api/iae/user/users' });
+        state.loading = false;
         if (!response) throw Error('Error de conexión');
         state.usuarios = response.data;
         state.loaded = true;
