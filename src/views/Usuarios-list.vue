@@ -94,10 +94,10 @@
               <td class="table__cell">{{u.nombre}}</td>
               <td class="table__cell">{{u.apellido}}</td>
               <td class="table__cell">{{u.login}}</td>
+              <td>{{u.legajo}}</td>
               <td class="table__cell">{{u.password}}</td>
               <td class="table__cell">{{u.email}}</td>
               <td>{{u.documento}}</td>
-              <td>{{u.legajo}}</td>
             </tr>
           </tbody>
         </table>
