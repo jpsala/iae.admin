@@ -1,23 +1,24 @@
 <template>
-<div class="login flex__item--center card card--raised">
-  <form @submit.stop.prevent="submit" class="lead panel bg-color-lightest card__content">
+  <div class="login flex__item--center card card--raised">
+    <form @submit.stop.prevent="submit" class="lead panel bg-color-lightest card__content">
       <div class="control">
         <label class="control__label">Usuario
-          <input  v-model="login" class="control__input" type="text" placeholder="Usuario">
-        </label>
-    </div>
-      <div class="field">
-      <div class="control">
-        <label class="control__label">Password
-          <input v-model="password" class="control__input" type="password" placeholder="Password">
+          <input v-model="login" class="control__input" type="text" placeholder="Usuario">
         </label>
       </div>
-    </div>
-  <div class="grid grid--justify-end">
-    <button  type="submit" class="button button--filled button--primary">Ingresar</button>
+      <div class="field">
+        <div class="control">
+          <label class="control__label">Password
+            <input v-model="password" class="control__input" type="password"
+              placeholder="Password">
+          </label>
+        </div>
+      </div>
+      <div class="grid grid--justify-end">
+        <button type="submit" class="button button--filled button--primary">Ingresar</button>
+      </div>
+    </form>
   </div>
-  </form>
-</div>
 </template>
 
 <script>
@@ -54,17 +55,14 @@ export default {
 </script>
 
 <style lang="scss">
-    .login{
-      // background-color: lightblue;
-      margin: 30px auto;
-      padding: 25px 17px 0px 25px;
-      // max-width: 500px;
-      // margin: auto auto;
-      // background-color: #00D1B2;
-      border-radius: 5px;
-      & .field.is-grouped{
+.login {
+    align-self: flex-start;;
+    margin: 80px auto;
+    padding: 25px 25px 7px 25px;
+    border-radius: 8px;
+    & .field.is-grouped {
         margin-top: 30px;
         justify-content: flex-end;
-      }
     }
+}
 </style>

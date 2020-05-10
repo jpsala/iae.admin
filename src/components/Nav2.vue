@@ -6,25 +6,22 @@
     <nav class="nav">
       <span v-if="Screen.lt.lg &&  Screen.gt.xs" @click="togglePinned" class="pin"
         :class="{'icon-pin-outline':!pinned,'icon-pin':pinned}" />
-      <ul class="list list--unstyled list--nulled margin-lg margin-y title-set">
-        <li v-if="itemParent" class="list__item item-parent" @click="back">
-          <i class="item  icon-keyboard_backspace" />
-          <!-- <span class="active-title">{{itemParent.title}}</span> -->
-          <!-- <hr style="margin: 5px 0 20px 0"/> -->
-        </li>
-        <li v-if="itemActive" class="list__item item-parent" @click="back">
-          <span class="active-title">{{itemActive.title}}</span>
-          <span class="active-det list__item__det">{{itemActive.det}}</span>
-          <hr v-if="items && items.length>0" style="margin: 5px 0 20px 0" />
-        </li>
+      <div class="margin-lg margin-y title-set">
+        <ul class="list list--unstyled list--nulled">
+          <li v-if="itemParent" class="list__item item-parent">
+            <i class="item  icon-keyboard_backspace" @click="back" />
+            <span class="active-title" v-if="itemActive">{{itemActive.title}}</span>
+            <span class="active-det list__item__det" v-if="itemActive">{{itemActive.det}}</span>
+            <hr style="margin: 5px 0 20px 0"/>
+          </li>
           <template v-if="loggedIn">
-            <li class="list__item" v-for="(i, idx) in items" :key="idx">
-              <router-link v-if="!i.items" :to="i.to">{{i.title}}</router-link>
-              <span class="item" v-else @click="menuClick(i)">{{i.title}}</span>
-              <span class="list__item__det">{{i.det}}</span>
-            </li>
+            <button @click="back()">back</button>
+          <li class="list__item" v-for="(i, idx) in items" :key="idx">
+            <router-link v-if="!i.items" :to="i.to">{{i.title}}</router-link>
+            <span class="item" v-else @click="menuClick(i)">{{i.title}}</span>
+            <span class="list__item__det">{{i.det}}</span>
+          </li>
           </template>
-        <div class="nav-bottom">
           <hr class="hr-session" />
           <div v-if="loggedIn" class="margin-xxs margin-y title-set">
             Conectado como {{user.nombre}}
@@ -37,76 +34,57 @@
             <router-link @click="logout()" to="#">Desconectar</router-link>
             <span class="list__item__det">Desconectar la app</span>
           </li>
-        </div>
-      </ul>
+        </ul>
+      </div> <!-- /.title-set -->
     </nav>
-    <!-- {{itemActive}} -->
+    {{itemsStack.length}}:{{itemsStack}}
   </div>
   <div v-if="overlay" id="overlay" @click="closeOverlay"></div>
   <!-- <div class="log">{{Screen.width +' '+ Screen.name}}</div> -->
 </template>
 <script>
 /* eslint-disable max-len */
-/* eslint-disable no-underscore-dangle */
-import { watch, ref } from 'vue';
+import {
+    watch, ref, computed, onMounted,
+} from 'vue';
 import useWindowResize from '../service/useWindowResize';
 import useSession from '../service/useSession';
-// import useGlobal from '../service/useGlobal';
+import useGlobal from '../service/useGlobal';
 import router from '../router';
 
 export default {
     setup() {
         const { user, loggedIn, logout } = useSession();
-        // const { setMenuItem: setGlobalMenuItem } = useGlobal();
+        const { setMenuItem: setGlobalMenuItem } = useGlobal();
         const overlay = ref(false);
         const Screen = useWindowResize();
         const nav = ref();
         const itemActive = ref();
         const pinned = ref(false);
         const itemsStack = ref([]);
-        const itemParent = ref();
-        const allItems = ref([
-            {
-                title: 'Inicio',
-                det: 'Página de inicio',
-                to: '/',
-                items: [
-                    {
-                        title: 'Usuarios',
-                        det: 'Administrar los Usuarios/Empleados',
-                        to: '/usuarios',
-                        items: [
-                            {
-                                title: 'Edición',
-                                det: 'Modificación de usuarios',
-                                to: '/usuarios/usuarios-list',
-                            },
-                        ],
-                    },
-                    {
-                        title: 'Parientes',
-                        to: '/parientes',
-                        det: 'Administrar los Parientes',
-                        items: [
-                            { title: 'Edición', det: 'Modificación de Parientes', to: '/parientes/parientes-list' },
-                        ],
-                    },
-                    {
-                        title: 'Autocomplete',
-                        to: '/autocomplete',
-                        det: 'Item con items',
-                        items: [
-                            { title: 'Test Opcion 1', to: '/test' },
-                            { title: 'Test Opcion 2', det: 'aaa', to: '/test2' },
-                            { title: 'Test Opcion 3', det: 'aaa', to: '/test3' },
-                        ],
-                    },
-                ],
+        const itemParent = computed({
+            get: () => {
+                console.log('get', itemsStack.value);
+                return itemsStack.value.length > 0 ? itemsStack.value[itemsStack.value.length - 1] : undefined;
             },
-        ]);
-        const items = ref(allItems.value[0].items);
-        const menuClick = (item) => { if (item.to) router.push(item.to); else if (item.items) items.value = item.items; };
-        const back = () => menuClick(itemParent.value);
+            set: (item) => itemsStack.value.push(item),
+        });
+        const items = ref([]);
+        const menuClick = (item) => {
+            console.log('item', item);
+            if (item.to) router.push(item.to);
+        };
+        const back = () => {
+            const { matched } = router.currentRoute.value;
+            if (matched) {
+                console.log('matched', matched);
+                if (matched.length < 2) router.push('/');
+                else {
+                    const parentRoute = matched[matched.length - 2];
+                    router.push(parentRoute.path);
+                }
+            }
+        };
         const closeOverlay = () => {
             overlay.value = false;
             if (Screen.value.xs) nav.value = false;
@@ -120,7 +98,7 @@ export default {
         const togglePinned = () => {
             pinned.value = !pinned.value;
         };
-        const navOnToggle = (_show) => {
+        const navChange = (_show) => {
             const navEl = document.querySelector('#Nav');
             if (_show) {
                 navEl.classList.add('show');
@@ -143,39 +121,23 @@ export default {
                 nav.value = false;
             } else if (!pinned.value) nav.value = Screen.value.gt.sm;
         };
-        const findRoute = (route, routes = allItems.value) => {
-            // eslint-disable-next-line no-restricted-syntax
-            for (const _route of routes) {
-                if (_route.to === route.path) return _route;
-                if (_route.items?.length > 0) {
-                    const encontrada = findRoute(route, _route.items);
-                    if (encontrada) return encontrada;
-                }
-            }
-            return false;
-        };
-        const onRouteChanged = () => {
+        const findRoute = (r) => {
+            if(r)
+        }
+        const getRouteData = () => {
             const currentRoute = router.currentRoute.value;
-            const route = findRoute(currentRoute);
-            console.log('route', route);
-            if (route) {
-                console.log('detalle', currentRoute.matched);
-                items.value = route.items;
-                itemActive.value = route;
-                console.log('route.items', route.items);
-            } else items.value = allItems.value;
-            if (currentRoute.path === '/') itemParent.value = undefined;
-            // eslint-disable-next-line prefer-destructuring
-            else if (currentRoute.matched.length <= 1) itemParent.value = allItems.value[0];
-            else if (currentRoute.matched.length > 1) {
-                const parent = currentRoute.matched[currentRoute.matched.length - 2];
-                if (parent) itemParent.value = findRoute(parent);
-                if (parent) items.value = itemParent.value.items;
-            }
+            let children;
+            console.log('router.currentRoute', router.currentRoute);
+            if (currentRoute.matched.length > 0 && currentRoute.matched[0].children.length > 0) return currentRoute.matched[0].children;
+            return router.getRoutes();
         };
-        router.afterEach(onRouteChanged);
+        router.afterEach(async (to, from) => {
+            console.log('items', getRouteData(), router.currentRoute.value);
+            console.log('fr', findRoute( router.currentRoute.value));
+        });
+        // eslint-disable-next-line no-return-assign
         watch(Screen, breakpointChange, { deep: true });
-        watch(nav, navOnToggle);
+        watch(nav, navChange);
         return {
             closeOverlay,
             overlay,
@@ -199,8 +161,6 @@ export default {
 </script>
 <style lang="scss">
 .icon-nav {
-    display: flex;
-    flex-direction: column;
     cursor: pointer;
     position: absolute;
     top: 7px;
@@ -209,8 +169,6 @@ export default {
     z-index: 5;
 }
 #Nav {
-    display: flex;
-    flex-direction: col;
     z-index: 3;
     background-color: white;
     display: none;
@@ -218,14 +176,8 @@ export default {
     padding: 0px 0 0 1rem;
     max-width: 250px !important;
     box-shadow: 1px 0 5px 1px #80808069;
-    min-width: 210px;
     @media (min-width: 768px) {
         max-width: 300px !important;
-    }
-    ul {
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
     }
     .hr-session {
         margin: 1rem 0;
@@ -246,12 +198,8 @@ export default {
         width: 160px;
         font-size: 14px;
     }
-    &.show .nav {
-        display: flex;
-        flex-direction: column;
-    }
     &.show {
-        display: flex;
+        display: block;
     }
     .item {
         cursor: pointer;

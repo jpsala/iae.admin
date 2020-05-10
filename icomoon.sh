@@ -1,5 +1,5 @@
 origen="/home/jpsala/Downloads/icomoon.zip"
-destino="/prg/iae.v2/src/assets/icomoon"
+destino="./src/assets/icomoon"
 unzip -o $origen style.css -d $destino
 unzip -o $origen fonts/icomoon.woff -d $destino
 unzip -o $origen selection.json -d $destino

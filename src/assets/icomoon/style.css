@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'icomoon';
   src:
-    url('fonts/icomoon.woff?77yuc9') format('woff');
+    url('fonts/icomoon.woff?lxbdpn') format('woff');
   font-weight: normal;
   font-style: normal;
   font-display: block;
@@ -22,6 +22,9 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-keyboard_backspace:before {
+  content: "\e906";
+}
 .icon-pin-outline:before {
   content: "\e904";
 }

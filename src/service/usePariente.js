@@ -1,7 +1,10 @@
 /* eslint-disable no-return-assign */
 /* eslint-disable no-mixed-operators */
-import { reactive, toRefs, readonly } from 'vue';
+import {
+    reactive, toRefs, readonly,
+} from 'vue';
 import axios from 'axios';
+
 
 const state = reactive({
     loaded: false,

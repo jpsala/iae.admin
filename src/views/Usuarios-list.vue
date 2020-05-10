@@ -1,9 +1,6 @@
 <template>
-  <div class="container container--fluid margin-xs margin-y">
-    <div class="flex--stretch subtitle--xl q-ml-xxl ">
-        Usuarios
-    </div>
-    <hr>
+<div>
+    <hr style="margin: 1px">
     <div class='q-pa-sm flex--justify-start' style="max-width: 800px">
       <div v-if="usuarioLocal" class='flex flex--center card card--card--raised q-pa-xs flex--stretch'
         style='justify-content: space-betwdeen'>
@@ -94,10 +91,10 @@
               <td class="table__cell">{{u.nombre}}</td>
               <td class="table__cell">{{u.apellido}}</td>
               <td class="table__cell">{{u.login}}</td>
-              <td>{{u.legajo}}</td>
+              <td class="table__cell">{{u.legajo}}</td>
               <td class="table__cell">{{u.password}}</td>
               <td class="table__cell">{{u.email}}</td>
-              <td>{{u.documento}}</td>
+              <td class="table__cell">{{u.documento}}</td>
             </tr>
           </tbody>
         </table>
@@ -139,7 +136,7 @@ export default {
             setUsuario(usuariosFiltered.value[0]);
         });
         const modificado = computed(() => false);
-        watch(filter, () => setFilter(filter.value), { immediate: true });
+        watch(filter, () => setFilter(filter.value), { immediate: false });
         return {
             loading, usuario, usuariosFiltered, filter, setUsuario, graba, cancela, setUsuarioLocal, usuarioLocal, modificado,
         };

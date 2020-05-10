@@ -51,14 +51,18 @@ export default () => {
         setFilter(state.filter);
     };
     const fetch = async () => {
-        if (state.usuarios.length) return;
-        state.loading = true;
-        const response = await axios({ url: '/api/iae/user/users' });
-        state.loading = false;
-        if (!response) throw Error('Error de conexión');
-        state.usuarios = response.data;
-        state.loaded = true;
-        onLoadedFN();
+        if (state.usuarios.length > 0) return;
+        try {
+            state.loading = true;
+            const response = await axios({ url: '/api/iae/user/users' });
+            state.loading = false;
+            if (!response) throw Error('Error de conexión');
+            state.usuarios = response.data;
+            state.loaded = true;
+            onLoadedFN();
+        } catch (error) {
+            alert(error);
+        }
     };
     fetch();
     return {
