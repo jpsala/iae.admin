@@ -1,8 +1,9 @@
 <template>
-<div>
+  <div>
     <hr style="margin: 1px">
     <div class='q-pa-sm flex--justify-start' style="max-width: 800px">
-      <div v-if="usuarioLocal" class='flex flex--center card card--card--raised q-pa-xs flex--stretch'
+      <div v-if="usuarioLocal"
+        class='flex flex--center card card--card--raised q-pa-xs flex--stretch'
         style='justify-content: space-betwdeen'>
         <form>
           <div class="grid">
@@ -25,7 +26,8 @@
             <div class="grid__column grid__column--12 grid__column--6--md">
               <div class="control control--block">
                 <label class="control__label">Login</label>
-                <input class="control__input" type="text" placeholder="" v-model="usuarioLocal.login">
+                <input class="control__input" type="text" placeholder=""
+                  v-model="usuarioLocal.login">
               </div>
             </div>
             <div class="grid__column grid__column--12 grid__column--6--md">
@@ -53,22 +55,23 @@
             </div>
           </div>
           <div class="flex flex--justify-end">
-              <div class="control">
-                <input @click="cancela"
-                  class="control__button button button--filled button--tertiary" type="button"
-                  value="Cancela">
+            <div class="control">
+              <input @click="cancela"
+                class="control__button button button--filled button--tertiary" type="button"
+                value="Cancela">
             </div>
-              <div class="control q-ml-xxs">
-                <input @click="graba"
-                  class="control__button button button--filled button--secondary" type="button"
-                  value="Graba">
+            <div class="control q-ml-xxs">
+              <input @click="graba"
+                class="control__button button button--filled button--secondary" type="button"
+                value="Graba">
             </div>
           </div>
         </form>
       </div>
       <div v-if="!usuarioLocal" class="control control--inline">
-        <label for="filtro" class="control__label">Filtro &nbsp;</label>
-        <input id="filtro" class="control__input" autofocus type="text" v-model="filter" />
+        <label class="control__label">Filtro &nbsp;
+          <input class="control__input" autofocus type="text" v-model="filter" />
+        </label>
       </div>
       <!-- Form -->
       <div v-if="usuariosFiltered.length > 0  && !usuarioLocal">
@@ -86,8 +89,8 @@
             </tr>
           </thead>
           <tbody class="table__body">
-            <tr @click="setUsuarioLocal(u)" class="table__row" v-for="(u, index) in usuariosFiltered"
-              :key="index">
+            <tr @click="setUsuarioLocal(u)" class="table__row"
+              v-for="(u, index) in usuariosFiltered" :key="index">
               <td class="table__cell">{{u.nombre}}</td>
               <td class="table__cell">{{u.apellido}}</td>
               <td class="table__cell">{{u.login}}</td>

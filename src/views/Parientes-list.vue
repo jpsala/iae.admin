@@ -89,6 +89,7 @@
         <!-- <div v-for="(u, index) in parientes" :key="index">{{u.id}}</div> -->
       </div>
       <div v-if="loading">Cargando...</div>
+      <router-view />
     </div>
   </div>
 </template>
