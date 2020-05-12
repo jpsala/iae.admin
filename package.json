@@ -16,7 +16,8 @@
     "sass-loader": "^8.0.2",
     "tiny-throttle": "^1.0.1",
     "vue": "^3.0.0-beta.1",
-    "vue-router": "^4.0.0-alpha.5"
+    "vue-router": "^4.0.0-alpha.5",
+    "vue-selecto": "^1.1.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.3.1",

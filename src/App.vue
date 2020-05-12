@@ -20,7 +20,7 @@ export default {
                 const loggedIn = await tryToLogin();
                 if (!loggedIn) router.push('/login');
             } catch (error) {
-                console.log('ERROR trying to login ', error);
+                console.log('error!!! trying to login in app.vue', error);
             }
         });
         return { user };

@@ -20,7 +20,7 @@
                 padding-bottom: $padding;
             }
             &t-#{$space} {
-                padding-bottom: $padding;
+                padding-top: $padding;
             }
             &r-#{$space} {
                 padding-right: $padding;
@@ -50,7 +50,7 @@
                 margin-bottom: $margin;
             }
             &t-#{$space} {
-                margin-bottom: $margin;
+                margin-top: $margin;
             }
             &r-#{$space} {
                 margin-right: $margin;

@@ -64,6 +64,7 @@ export default () => {
             alert(error);
         }
     };
+    console.log('hola');
     fetch();
     return {
         ...toRefs(readonly(state)),

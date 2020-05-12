@@ -34,13 +34,11 @@ const routes = [
                 path: '/parientes/parientes-list',
                 name: 'parientes-list',
                 component: () => import(/* webpackChunkName: "code" */ '../views/Parientes-list.vue'),
-                children: [
-                    {
-                        path: '/parientes/parientes-list/usuarios-list',
-                        name: 'usuarios-list',
-                        component: () => import(/* webpackChunkName: "code" */ '../views/Usuarios-list.vue'),
-                    },
-                ],
+            },
+            {
+                path: '/parientes/parientes-test',
+                name: 'parientes-test',
+                component: () => import(/* webpackChunkName: "code" */ '../views/parientes-test.vue'),
             },
         ],
     },

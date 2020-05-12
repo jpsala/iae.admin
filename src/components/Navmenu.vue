@@ -1,9 +1,9 @@
 <template>
-  <ul class="list list--unstyled list--nulled margin-lg margin-y title-set">
-    <li v-if="itemParent" class="list__item item-parent" @click="back">
+  <ul class="list list--unstyled list--nulled q-mt-xxs title-set">
+    <!-- <li v-if="itemParent" class="list__item item-parent" @click="back">
+    </li> -->
+    <li v-if="itemParent" class="list__item item-parent item" @click="back">
       <i class="item  icon-keyboard_backspace" />
-    </li>
-    <li v-if="itemParent" class="list__item item-parent" @click="back">
       <span class="active-title">{{isRootPath(itemParent.to) ? itemActive.title : itemParent.title}}</span>
       <span class="active-det list__item__det">{{isRootPath(itemParent.to) ? itemActive.det : itemParent.det}}</span>
       <hr v-if="items && items.length>0" style="margin: 5px 0 20px 0" />
@@ -22,15 +22,15 @@
 import { reactive, ref, toRefs } from 'vue';
 import router from '../router';
 import useSession from '../service/useSession';
-import menuItems from '../menu-items.json';
+import menuJson from '../menu.json';
 
 const state = reactive({
-    rootItem: menuItems,
     itemActive: undefined,
     itemParent: undefined,
     items: [],
+    rootItem: menuJson,
 });
-const findItemByPath = (path, items = [menuItems], parent) => {
+const findItemByPath = (path, items = [state.rootItem], parent) => {
     for (const item of items) {
         if (item.to === path) return { item, parent };
         if (item.items?.length > 0) {
@@ -80,7 +80,7 @@ export default {
                 console.error('avisar cuando la ruta no existe en rootItem??');
                 return;
             }
-            state.itemParent = item.parent;// ?? state.rootItem;
+            state.itemParent = item.parent;
             state.items = item.item.items?.length > 0 ? item.item.items : state.itemParent?.items;
             state.itemActive = item.item;
         };
@@ -114,12 +114,13 @@ export default {
     .item-parent {
         margin-bottom: 10px;
         .icon-keyboard_backspace {
-            font-size: 1.4rem;
+            font-size: 2rem;
         }
         .active-title {
             font-size: 1.3rem;
             margin-left: 10px;
         }
     }
+
 
 </style>

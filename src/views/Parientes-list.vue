@@ -1,6 +1,5 @@
 <template>
   <div>
-    <hr style="margin: 1px">
     <div class='q-pa-sm flex--justify-start' style="max-width: 800px">
       <div v-if="parienteLocal" class='flex flex--center card card--card--raised q-pa-xs flex--stretch'
         style='justify-content: space-betwdeen'>

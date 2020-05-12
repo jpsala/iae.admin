@@ -1,0 +1,36 @@
+{
+	"title": "Inicio",
+	"det": "Página de inicio",
+	"to": "/",
+	"items": [
+		{
+			"title": "Usuarios",
+			"det": "Administrar los Usuarios/Empleados",
+			"to": "/usuarios",
+			"items": [
+				{
+					"title": "Edición",
+					"det": "Modificación de usuarios",
+					"to": "/usuarios/usuarios-list"
+				}
+			]
+		},
+		{
+			"title": "Parientes",
+			"to": "/parientes",
+			"det": "Administrar los Parientes",
+			"items": [
+				{
+					"title": "Edición",
+					"det": "Modificación de Parientes",
+					"to": "/parientes/parientes-list"
+				},
+				{
+					"title": "Test",
+					"det": "Modificación de Parientes TEST",
+					"to": "/parientes/parientes-test"
+				}
+			]
+		}
+	]
+}
